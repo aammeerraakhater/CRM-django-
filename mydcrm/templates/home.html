@@ -2,6 +2,26 @@
 <div class="col-md-6  offset-md-3">
     {%if user.is_authenticated%}
     <h1>Jello user!!</h1>
+    <table class="table">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">First</th>
+            <th scope="col">Last</th>
+            <th scope="col">Phone</th>
+          </tr>
+        </thead>
+        <tbody>
+            {%for record in records%}
+          <tr>
+            <th scope="row"><a href="{% url 'record' record.id%}">{{record.id}}</a></th>
+            <td>{{record.first_name}}</td>
+            <td>{{record.last_name}}</td>
+            <td>{{record.phone}}</td>
+          </tr>
+          {%endfor%}
+        </tbody>
+      </table>
     {%else%}
     <h1>Login</h1>
     <br><br>

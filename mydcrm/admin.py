@@ -1,3 +1,10 @@
 from django.contrib import admin
+from .models import Record
 
-# Register your models here.
+# class RecordAdmin(admin.ModelAdmin):
+#     fields = ["first_name", "phone"]
+
+
+admin.site.register(Record)
+
+
