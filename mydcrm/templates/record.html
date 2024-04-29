@@ -1,8 +1,13 @@
 {% extends 'base.html' %} 
 
 {%block content%}
-{{record.id}}
-{{record.first_name}}
-{{record.phone}}
-<a href="{% url 'delete_record' record.id%}" class="btn btn-danger">Delete</a>
+<div class="card">
+    <h5 class="card-header">Customer name:{{record.first_name}}</h5>
+    <div class="card-body">
+      <h5 class="card-title">with #:{{record.id}}</h5>
+      <p class="card-text">with number: {{record.phone}}.</p>
+      <a href="{% url 'delete_record' record.id%}" class="btn btn-danger">Delete</a>
+      <a href="{%url 'update_record' record.id%}" class="btn btn-primary">Update</a>
+    </div>
+  </div>
 {%endblock%}

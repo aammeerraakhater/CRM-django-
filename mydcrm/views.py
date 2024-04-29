@@ -1,8 +1,10 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
-from .forms import SignUpForm
+from .forms import SignUpForm, AddRecord
 from .models import Record
+
+
 def home(request):
     if request.method == "POST":
         userName = request.POST['userName']
@@ -22,7 +24,6 @@ def home(request):
     }
     return render(request, 'home.html', context) 
     return render(request, 'home.html', {})
-
 
 
 def register_user(request):
@@ -46,6 +47,7 @@ def logout_user(request):
     logout(request)
     return redirect('home')
 
+
 def view_record(request, pk):
     if request.user.is_authenticated:
         obj = Record.objects.get(id=pk)
@@ -53,8 +55,53 @@ def view_record(request, pk):
     else:
         messages.success(request, "You nust be logged in to view the page")
         return(redirect('home'))
+    
+
 def delete_record(request, pk):
     if request.user.is_authenticated:
         obj = Record.objects.get(id=pk)
         obj.delete()
     return redirect('home')
+
+
+def add_record(request):
+    form = AddRecord(request.POST or None)
+    if request.user.is_authenticated:
+        if request.method =='POST':
+            if form.is_valid():
+                form.save()
+                messages.success(request, "Great job! You have added new record...")
+                return redirect('home')
+        return render(request, 'add_record.html', {'form':form})
+    else:
+        messages.success(request, "You must be logged in...")
+
+
+def update_record(request, pk):
+    if request.user.is_authenticated:
+        current_record = Record.objects.get(id=pk)
+        form = AddRecord(request.POST or None, instance=current_record)
+        if form.is_valid():
+            form.save()
+            messages.success(request, "Great job, the form is updated...")
+            return redirect('home')
+        return render(request, 'update_record.html', {'form':form})
+    else:
+        messages.success(request, "You must be logged in...")
+
+
+        
+
+
+
+#this is so much worl for nothing 
+            # first_name=form.cleaned_data['first_name']
+            # last_name=form.cleaned_data['last_name']
+            # phone=form.cleaned_data['phone']
+            # email=form.cleaned_data['email']
+            # city=form.cleaned_data['city']
+            # address=form.cleaned_data['address']
+            # zipcode=form.cleaned_data['zipcode']
+            # state=form.cleaned_data['state']
+            # user_record = Record(first_name=first_name,last_name=last_name,phone=phone,email=email,city=city,address=address,zipcode=zipcode,state=state)
+            # user_record.save()
