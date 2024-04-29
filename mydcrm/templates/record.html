@@ -4,4 +4,5 @@
 {{record.id}}
 {{record.first_name}}
 {{record.phone}}
+<a href="{% url 'delete_record' record.id%}" class="btn btn-danger">Delete</a>
 {%endblock%}

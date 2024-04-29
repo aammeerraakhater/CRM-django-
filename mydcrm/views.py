@@ -53,4 +53,8 @@ def view_record(request, pk):
     else:
         messages.success(request, "You nust be logged in to view the page")
         return(redirect('home'))
-
+def delete_record(request, pk):
+    if request.user.is_authenticated:
+        obj = Record.objects.get(id=pk)
+        obj.delete()
+    return redirect('home')
